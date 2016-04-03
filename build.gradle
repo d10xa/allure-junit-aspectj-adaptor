@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id "com.jfrog.bintray" version "1.6"
+}
+
+group = "ru.d10xa"
+version = "0.1.0"
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+apply from: 'gradle/bintray.gradle'
+
+repositories {
+    jcenter()
+}
+
+configurations {
+    agent
+}
+
+dependencies {
+    agent "org.aspectj:aspectjweaver:${aspectjVersion}"
+    compileOnly "org.aspectj:aspectjrt:${aspectjVersion}"
+
+    compileOnly "ru.yandex.qatools.allure:allure-junit-adaptor:${allureVersion}"
+
+    compileOnly "junit:junit:4.12"
+}

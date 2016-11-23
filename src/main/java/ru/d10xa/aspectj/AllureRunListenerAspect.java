@@ -12,6 +12,8 @@ import ru.yandex.qatools.allure.junit.AllureRunListener;
 @Aspect
 public class AllureRunListenerAspect {
 
+    private static AllureRunListener allureRunListener = new AllureRunListener();
+
     @Pointcut("execution(void org.junit.runners.ParentRunner.run(org.junit.runner.notification.RunNotifier))")
     public void run() {
     }
@@ -20,8 +22,8 @@ public class AllureRunListenerAspect {
     public void run(ProceedingJoinPoint pjp) {
         Object[] args = pjp.getArgs();
         RunNotifier notifier = (RunNotifier) args[0];
-
-        notifier.addListener(new AllureRunListener());
+        notifier.removeListener(allureRunListener);
+        notifier.addListener(allureRunListener);
         notifier.fireTestRunStarted(Description.createSuiteDescription("Tests"));
 
         try {
